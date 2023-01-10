@@ -1,7 +1,8 @@
 <template>
-  <button class="gulu-button" :class="classes" :disabled="disabled" @click="$emit('click', $event)">
-    <span v-if="loading" class="gulu-loadingIndicator"></span>
-    <slot />
+  <button class="luui-button" :class="classes" :disabled="disabled" @click="$emit('click', $event)">
+    <span v-if="loading" class="luui-loadingIndicator"></span>
+    <span class="luui-button-text"><slot /></span>
+    
   </button>
 </template>
 <script lang="ts" setup="props">
@@ -20,179 +21,92 @@ defineEmits<{
 }>()
 const classes = computed(() => {
   return {
-    [`gulu-theme-${theme}`]: theme,
-    [`gulu-size-${size}`]: size,
-    [`gulu-level-${level}`]: level,
+    [`luui-theme-${theme}`]: theme,
+    [`luui-size-${size}`]: size,
+    [`luui-level-${level}`]: level,
   };
 });
 </script>
 <style lang="scss">
-$h: 32px;
-$border-color: #d9d9d9;
-$color: #333;
-$blue: #40a9ff;
-$radius: 4px;
-$red: red;
-$grey: grey;
+.luui-button {
+ position: relative;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 5px;
+ background: #183153;
+ font-family: "Montserrat", sans-serif;
+ box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
+ overflow: hidden;
+ border: none;
 
-.gulu-button {
-  box-sizing: border-box;
-  height: $h;
-  padding: 0 12px;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-  background: white;
-  color: $color;
-  border: 1px solid $border-color;
-  border-radius: $radius;
-  box-shadow: 0 1px 0 fade-out(black, 0.95);
-  transition: background 250ms;
-
-  &+& {
-    margin-left: 8px;
-  }
-
-  &:hover,
-  &:focus {
-    color: $blue;
-    border-color: $blue;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &::-moz-focus-inner {
-    border: 0;
-  }
-
-  &.gulu-theme-link {
-    border-color: transparent;
-    box-shadow: none;
-    color: $blue;
-
-    &:hover,
-    &:focus {
-      color: lighten($blue, 10%);
-    }
-  }
-
-  &.gulu-theme-text {
-    border-color: transparent;
-    box-shadow: none;
-    color: inherit;
-
-    &:hover,
-    &:focus {
-      background: darken(white, 5%);
-    }
-  }
-
-  &.gulu-size-big {
-    font-size: 24px;
-    height: 48px;
-    padding: 0 16px;
-  }
-
-  &.gulu-size-small {
-    font-size: 12px;
-    height: 20px;
-    padding: 0 4px;
-  }
-
-  &.gulu-theme-button {
-    &.gulu-level-main {
-      background: $blue;
-      color: white;
-      border-color: $blue;
-
-      &:hover,
-      &:focus {
-        background: darken($blue, 10%);
-        border-color: darken($blue, 10%);
-      }
+  &.luui-size-big {
+    .luui-button-text {
+      font-size: 16px !important;
+      padding: 12 20px !important;
     }
 
-    &.gulu-level-danger {
-      background: $red;
-      border-color: $red;
-      color: white;
-
-      &:hover,
-      &:focus {
-        background: darken($red, 10%);
-        border-color: darken($red, 10%);
-      }
-    }
   }
 
-  &.gulu-theme-link {
-    &.gulu-level-danger {
-      color: $red;
-
-      &:hover,
-      &:focus {
-        color: darken($red, 10%);
-      }
+  &.luui-size-small {
+    .luui-button-text {
+      font-size: 12px !important;
+      padding: 8 16px !important;
     }
-  }
-
-  &.gulu-theme-text {
-    &.gulu-level-main {
-      color: $blue;
-
-      &:hover,
-      &:focus {
-        color: darken($blue, 10%);
-      }
-    }
-
-    &.gulu-level-danger {
-      color: $red;
-
-      &:hover,
-      &:focus {
-        color: darken($red, 10%);
-      }
-    }
-  }
-
-  &.gulu-theme-button {
-    &[disabled] {
-      cursor: not-allowed;
-      color: $grey;
-
-      &:hover {
-        border-color: $grey;
-      }
-    }
-  }
-
-  &.gulu-theme-link,
-  &.gulu-theme-text {
-    &[disabled] {
-      cursor: not-allowed;
-      color: $grey;
-    }
-  }
-
-  >.gulu-loadingIndicator {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    margin-right: 4px;
-    border-radius: 8px;
-    border-color: $blue $blue $blue transparent;
-    border-style: solid;
-    border-width: 2px;
-    animation: gulu-spin 1s infinite linear;
   }
 }
 
-@keyframes gulu-spin {
+.luui-button:after {
+ content: " ";
+ width: 0%;
+ height: 100%;
+ background: #FFD401;
+ color: #183153;
+ position: absolute;
+ transition: all 0.4s ease-in-out;
+ right: 0;
+}
+
+.luui-button:hover::after {
+ right: auto;
+ left: 0;
+ width: 100%;
+}
+
+.luui-button-text{
+ text-align: center;
+ text-decoration: none;
+ width: 100%;
+ padding: 10px 18px;
+ color: #fff;
+ font-size: 14px;
+ font-weight: 700;
+ letter-spacing: 0.1em;
+ z-index: 20;
+ transition: all 0.3s ease-in-out;
+ color: #fff;
+}
+
+.luui-button-text:hover {
+ color: #183153;
+ animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes scaleUp {
+ 0% {
+  transform: scale(1);
+ }
+
+ 50% {
+  transform: scale(0.95);
+ }
+
+ 100% {
+  transform: scale(1);
+ }
+}
+
+@keyframes luui-spin {
   0% {
     transform: rotate(0deg)
   }

@@ -3,9 +3,7 @@
 </demo>
 <template>
 <div>
-  <Button>你好</Button>
-  <Button theme="link">你好</Button>
-  <Button theme="text">你好</Button>
+  <Button>这是一个按钮</Button>
 </div>
 </template>
 
