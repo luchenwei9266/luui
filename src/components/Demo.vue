@@ -1,17 +1,18 @@
 <template>
 <div class="demo">
   <h2>{{component.__sourceCodeTitle}}</h2>
-  <div class="demo-component">
-    <component :is="component" />
+  <div class="b-light border-solid border" >
+    <div class="demo-component">
+      <component :is="component" />
+    </div>
+    <div class="demo-actions b-light border-solid border">
+      <Button @click="hideCode" v-if="codeVisible">隐藏代码</Button>
+      <Button @click="showCode" v-else mb-10>查看代码</Button>
+    </div>
+    <div class="demo-code" v-if="codeVisible">
+      <pre class="language-html" v-html="html" />
+    </div>
   </div>
-  <div class="demo-actions">
-    <Button @click="hideCode" v-if="codeVisible">隐藏代码</Button>
-    <Button @click="showCode" v-else>查看代码</Button>
-  </div>
-  <div class="demo-code" v-if="codeVisible">
-    <pre class="language-html" v-html="html" />
-  </div>
-
 </div>
 </template>
 
@@ -53,13 +54,11 @@ export default {
 $border-color: #d9d9d9;
 
 .demo {
-  border: 1px solid $border-color;
   margin: 16px 0 32px;
 
   >h2 {
     font-size: 20px;
     padding: 8px 16px;
-    border-bottom: 1px solid $border-color;
   }
 
   &-component {
@@ -68,7 +67,6 @@ $border-color: #d9d9d9;
 
   &-actions {
     padding: 8px 16px;
-    border-top: 1px dashed $border-color;
   }
 
   &-code {

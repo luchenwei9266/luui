@@ -1,95 +1,129 @@
 <template>
   <button class="luui-button" :class="classes" :disabled="disabled" @click="$emit('click', $event)">
     <span v-if="loading" class="luui-loadingIndicator"></span>
-    <span class="luui-button-text"><slot /></span>
-    
+    <slot />    
   </button>
 </template>
 <script lang="ts" setup="props">
 import { computed } from "vue";
 const props = defineProps<{
-  theme?: 'button' | 'text' | 'link';
   size?: 'normal' | 'big' | 'small';
-  level?: 'normal' | 'main' | 'danger';
+  type?: 'normal' | 'main' | 'danger' | 'waring' | 'success';
   disabled?: boolean;
   loading?: boolean;
 }>();
-const { theme, size, level } = props;
+const { size, type } = props;
 
 defineEmits<{
   (e: 'click', event: MouseEvent): void
 }>()
 const classes = computed(() => {
   return {
-    [`luui-theme-${theme}`]: theme,
     [`luui-size-${size}`]: size,
-    [`luui-level-${level}`]: level,
+    [`luui-type-${type}`]: type,
   };
 });
 </script>
 <style lang="scss">
+$bg-main-btn: #409EFF;
+$bg-main-btn-shoadow: #3293EF;
+$bg-danger-btn: #e74c3c;
+$bg-danger-btn-shadow: #c0392b;
+$bg-waring-btn: #E6A23C;
+$bg-waring-btn-shadow: #E1B46C;
+$bg-success-btn: #67C23A;
+$bg-success-btn-shadow: #55B23E;
+$other-type-text-color: #fff;
+
+
 .luui-button {
- position: relative;
- display: flex;
- justify-content: center;
- align-items: center;
- border-radius: 5px;
- background: #183153;
- font-family: "Montserrat", sans-serif;
- box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
- overflow: hidden;
- border: none;
-
+  --bg: #fff;
+  --text-color: #111;
+  display: inline-block;
+  position: relative;
+  border: none;
+  background: var(--bg);
+  color: var(--text-color);
+  padding: 1em;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: 0.2s;
+  border-radius: 5px;
+  opacity: 0.8;
+  letter-spacing: 1px;
+  box-shadow: #e3e3e3 0px 7px 2px, #000 0px 8px 5px;
+  cursor: pointer;
+  
+  // size
   &.luui-size-big {
-    .luui-button-text {
-      font-size: 16px !important;
-      padding: 12 20px !important;
-    }
-
+    font-size: 16px;
   }
 
   &.luui-size-small {
-    .luui-button-text {
-      font-size: 12px !important;
-      padding: 8 16px !important;
-    }
+    font-size: 12px;
   }
+
+  &.luui-type-main {
+    background: $bg-main-btn;
+    box-shadow: $bg-main-btn-shoadow 0px 7px 2px, #000 0px 8px 5px;
+    color:$other-type-text-color;
+  }
+
+  // type
+  &.luui-type-main:enabled:active {
+    box-shadow: $bg-main-btn-shoadow 0px 3px 2px,#000 0px 3px 5px;
+  }
+
+  &.luui-type-danger {
+    background: $bg-danger-btn;
+    box-shadow: $bg-danger-btn-shadow 0px 7px 2px, #000 0px 8px 5px;
+    color:$other-type-text-color;
+  }
+
+  &.luui-type-danger:active {
+    box-shadow: $bg-danger-btn-shadow 0px 3px 2px,#000 0px 3px 5px;
+  }
+
+  &.luui-type-waring {
+    background: $bg-waring-btn;
+    box-shadow: $bg-waring-btn-shadow 0px 7px 2px, #000 0px 8px 5px;
+    color:$other-type-text-color;
+  }
+
+  &.luui-type-waring:active {
+    box-shadow: $bg-waring-btn-shadow 0px 3px 2px,#000 0px 3px 5px;
+  }
+
+  &.luui-type-success {
+    background: $bg-success-btn;
+    box-shadow: $bg-success-btn-shadow 0px 7px 2px, #000 0px 8px 5px;
+    color:$other-type-text-color;
+  }
+
+  &.luui-type-success:active {
+    box-shadow: $bg-success-btn-shadow 0px 3px 2px,#000 0px 3px 5px;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    box-shadow: none !important;
+    opacity: 0.5;
+  }
+
 }
 
-.luui-button:after {
- content: " ";
- width: 0%;
- height: 100%;
- background: #FFD401;
- color: #183153;
- position: absolute;
- transition: all 0.4s ease-in-out;
- right: 0;
+.luui-button:enable:hover {
+  opacity: 1;
 }
 
-.luui-button:hover::after {
- right: auto;
- left: 0;
- width: 100%;
+.luui-button:disabled {
+  border: 1px solid #e3e3e3;
 }
 
-.luui-button-text{
- text-align: center;
- text-decoration: none;
- width: 100%;
- padding: 10px 18px;
- color: #fff;
- font-size: 14px;
- font-weight: 700;
- letter-spacing: 0.1em;
- z-index: 20;
- transition: all 0.3s ease-in-out;
- color: #fff;
-}
-
-.luui-button-text:hover {
- color: #183153;
- animation: scaleUp 0.3s ease-in-out;
+.luui-button:enabled:active {
+  top: 4px;
+  box-shadow: #e3e3e3 0px 3px 2px,#000 0px 3px 5px;
 }
 
 @keyframes scaleUp {
@@ -106,13 +140,4 @@ const classes = computed(() => {
  }
 }
 
-@keyframes luui-spin {
-  0% {
-    transform: rotate(0deg)
-  }
-
-  100% {
-    transform: rotate(360deg)
-  }
-}
 </style>

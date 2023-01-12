@@ -4,11 +4,9 @@
 <template>
 <div>
   <div>
-    <Button size="big">大大大</Button>
-    <br />
-    <Button>普普通</Button>
-    <br />
-    <Button size="small">小小小</Button>
+    <Button size="big" m6>大大大</Button>
+    <Button m6>普普通</Button>
+    <Button size="small" m6>小小小</Button>
   </div>
 </div>
 </template>
